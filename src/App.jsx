@@ -7,6 +7,10 @@ export default function App() {
       // Adiciona o valor ao saldo atual
       return { ...state, balance: state.balance + action.payload };
     }
+    if (action.type == "withdraw") {
+      // Retira o valor do saldo atual
+      return { ...state, balance: state.balance - action.payload };
+    }
     return state;
   }
 
@@ -31,6 +35,11 @@ export default function App() {
         onClick={() => dispatch({ type: "add", payload: Number(amount) })}
       >
         Add Amount
+      </button>
+      <button
+        onClick={() => dispatch({ type: "withdraw", payload: Number(amount) })}
+      >
+        Withdraw Amount
       </button>
     </div>
   );
