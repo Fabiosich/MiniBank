@@ -1,34 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState, useReducer } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  // Função reducer para gerenciar o estado do saldo
+  function reducer(state, action) {
+    if (action.type == "add") {
+      // Adiciona o valor ao saldo atual
+      return { ...state, balance: state.balance + action.payload };
+    }
+    return state;
+  }
+
+  // Inicializa o estado com useReducer
+  const [state, dispatch] = useReducer(reducer, { balance: 0 });
+
+  // Estado local para armazenar o valor do input
+  const [amount, setAmount] = useState(0);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div>
+      {/* Exibe o saldo atual */}
+      {state.balance}
+      {/* Input para inserir o valor a ser adicionado */}
+      <input
+        type="text"
+        onChange={(e) => setAmount(e.target.value)}
+        value={amount}
+      />
+      {/* Botão para adicionar o valor ao saldo */}
+      <button
+        onClick={() => dispatch({ type: "add", payload: Number(amount) })}
+      >
+        Add Amount
+      </button>
     </div>
-  )
+  );
 }
-
-export default App
